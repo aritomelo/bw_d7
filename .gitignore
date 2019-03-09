@@ -9,3 +9,4 @@ node_modules
 /.php_cs.cache
 .stylelintrc.json
 behat.yml
+drone_config.md
