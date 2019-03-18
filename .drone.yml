@@ -7,10 +7,10 @@ services:
     image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
     environment:
     - DOCUMENT_ROOT=/test/bw_d7
-#  mysql:
-#    image: percona/percona-server:5.6
-#    environment:
-#      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+  mysql:
+    image: percona/percona-server:5.6
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
 
 pipeline:
   composer-install-lowest:
