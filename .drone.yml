@@ -26,18 +26,18 @@ pipeline:
       matrix:
         COMPOSER_BOUNDARY: lowest
 
-  composer-install-highest:
-    group: prepare
-    image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
-#    volumes:
-#      - /cache:/cache
-    commands:
-      - echo 'Testing pipeline.composer-install-highest'
-      - composer install --ansi --no-suggest --no-progress
-      - composer update --prefer-lowest --ansi --no-suggest --no-progress
-    when:
-      matrix:
-        COMPOSER_BOUNDARY: highest
+#  composer-install-highest:
+#    group: prepare
+#    image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
+##    volumes:
+##      - /cache:/cache
+#    commands:
+#      - echo 'Testing pipeline.composer-install-highest'
+#      - composer install --ansi --no-suggest --no-progress
+#      - composer update --prefer-lowest --ansi --no-suggest --no-progress
+#    when:
+#      matrix:
+#        COMPOSER_BOUNDARY: highest
 
   run-test-with-grump:
       group: test
