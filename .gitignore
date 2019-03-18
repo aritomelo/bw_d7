@@ -10,3 +10,4 @@ node_modules
 .stylelintrc.json
 behat.yml
 drone_config.md
+docker-compose.override.yml
