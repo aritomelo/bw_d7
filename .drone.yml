@@ -24,6 +24,18 @@ pipeline:
       matrix:
         COMPOSER_BOUNDARY: lowest
 
+  composer-install-highest:
+    group: prepare
+    image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
+#    volumes:
+#      - /cache:/cache
+    commands:
+      - echo 'Testing pipeline.composer-install-highest'
+    when:
+      matrix:
+        COMPOSER_BOUNDARY: highest
+
+
 matrix:
   PHP_VERSION:
   - 5.6
