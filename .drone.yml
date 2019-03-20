@@ -20,7 +20,7 @@ pipeline:
     group: prepare
     image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
     volumes:
-#    - ~/cache:/cache
+      - /cache:/cache
     commands:
       - echo "testing WIP RUNNING STEP Composer-install-lowest"
       - composer install --ansi --no-suggest --no-progress -v
@@ -50,7 +50,7 @@ pipeline:
       group: test
       image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
       commands:
-        - ./vendor/bin/grumphp run --ansi
+        - ./vendor/bin/behat
 
 matrix:
   PHP_VERSION:
