@@ -53,7 +53,13 @@ pipeline:
       group: test
       image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
       commands:
-        - ./vendor/bin/behat
+        - ./vendor/bin/grumphp run
+        -
+  run-test-with-behat:
+      group: test
+      image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
+      commands:
+        - ./vendor/bin/behat --strict
 
 matrix:
   PHP_VERSION:
