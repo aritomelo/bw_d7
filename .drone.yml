@@ -22,6 +22,7 @@ pipeline:
     volumes:
 #      - /cache:/cache
     commands:
+      - free
       - echo "testing WIP RUNNING STEP Composer-install-lowest"
       - composer install --ansi --no-suggest --no-progress -v
       - composer update --prefer-lowest --ansi --no-suggest --no-progress
