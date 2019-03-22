@@ -60,3 +60,7 @@ matrix:
   COMPOSER_BOUNDARY:
   - lowest
   - highest
+
+trigger:
+  event:
+    - push
