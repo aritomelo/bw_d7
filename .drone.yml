@@ -16,7 +16,6 @@ services:
     environment:
       - DISPLAY=:99
       - SE_OPTS=-debug
-
 pipeline:
   composer-install-lowest:
     group: prepare
@@ -60,6 +59,17 @@ pipeline:
       image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
       commands:
         - ./vendor/bin/behat --strict
+  notify:
+    image: plugins/slack
+    slack:
+      webhook_url:
+        from_secret: slack_webhook_url
+      template: >
+        {{#success build.status}}
+          build {{build.number}} succeeded. Good job.
+        {{else}}
+          build {{build.number}} failed. Fix me please.
+        {{/success}}
 
 matrix:
   PHP_VERSION:
