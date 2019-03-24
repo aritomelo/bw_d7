@@ -65,6 +65,8 @@ steps:
         {{else}}
           build {{build.number}} failed. Fix me please, bobeh.
         {{/success}}
+    when:
+      status: [success, failure]
 
 matrix:
   PHP_VERSION:
