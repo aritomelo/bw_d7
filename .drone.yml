@@ -26,7 +26,7 @@ steps:
     image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
     file: .env
     volumes:
-#      - /cache:/cache
+    # - /cache:/cache
     commands:
       - echo "testing WIP RUNNING STEP Composer-install-lowest"
       - echo ${SECRET_URL}
@@ -47,17 +47,18 @@ steps:
     commands:
       - ./vendor/bin/grumphp run
 
-#  run-test-with-behat:
-#      group: test
-#      image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
-#      commands:
-#        - ./vendor/bin/behat --strict
-#
+#  - name: run-test-with-behat
+#    group: test
+#    image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
+#    commands:
+#      - ./vendor/bin/behat --strict
+
   - name: slack
     image: plugins/slack
     settings:
       channel: tarafesonfire
-      webhook: https://hooks.slack.com/services/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
+      webhook:
+        from_secret: webhook_url
       template: >
         {{#success build.status}}
           build {{build.number}} succeeded. Good job bobeh.
