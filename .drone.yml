@@ -47,11 +47,11 @@ steps:
     commands:
       - ./vendor/bin/grumphp run
 
-#  - name: run-test-with-behat
-#    group: test
-#    image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
-#    commands:
-#      - ./vendor/bin/behat --strict
+  - name: run-test-with-behat
+    group: test
+    image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
+    commands:
+      - ./vendor/bin/behat --strict
 
   - name: slack
     image: plugins/slack
