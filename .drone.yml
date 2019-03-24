@@ -7,15 +7,15 @@ services:
     image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
     environment:
     - DOCUMENT_ROOT=/test/bw_d7
-  mysql:
-    image: percona/percona-server:5.6
-    environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-  selenium:
-    image: selenium/standalone-chrome:3.11
-    environment:
-      - DISPLAY=:99
-      - SE_OPTS=-debug
+#  mysql:
+#    image: percona/percona-server:5.6
+#    environment:
+#      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+#  selenium:
+#    image: selenium/standalone-chrome:3.11
+#    environment:
+#      - DISPLAY=:99
+#      - SE_OPTS=-debug
 pipeline:
   composer-install-lowest:
     group: prepare
@@ -30,10 +30,10 @@ pipeline:
       matrix:
         COMPOSER_BOUNDARY: lowest
 
-  site-install:
-    image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
-    commands:
-      - ./vendor/bin/run drupal:site-install
+#  site-install:
+#    image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
+#    commands:
+#      - ./vendor/bin/run drupal:site-install
 
   run-test-with-grump:
       group: test
@@ -41,18 +41,24 @@ pipeline:
       commands:
         - ./vendor/bin/grumphp run
 
-  run-test-with-behat:
-      group: test
-      image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
-      commands:
-        - ./vendor/bin/behat --strict
+#  run-test-with-behat:
+#      group: test
+#      image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
+#      commands:
+#        - ./vendor/bin/behat --strict
 
   slack:
+    -name: slack
     image: plugins/slack
-    channel: tarafesonfire
-    webhook: 'https://hooks.slack.com/services/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'
-    when:
-      status: [ success, failure ]
+    settings:
+      channel: tarafesonfire
+      webhook: "https://hooks.slack.com/services/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"
+      template: >
+        {{#success build.status}}
+          build {{build.number}} succeeded. Good job bobeh.
+        {{else}}
+          build {{build.number}} failed. Fix me please, bobeh.
+        {{/success}}
 
 matrix:
   PHP_VERSION:
