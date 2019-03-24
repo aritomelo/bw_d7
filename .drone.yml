@@ -17,12 +17,19 @@ services:
 #      - DISPLAY=:99
 #      - SE_OPTS=-debug
 pipeline:
+  slack:
+    image: plugins/slack
+    settings:
+      channel: tarafesonfire
+      webhook: ${secret_url}
+
   composer-install-lowest:
     group: prepare
     image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
     volumes:
 #      - /cache:/cache
     commands:
+      - echo 'webhookUrl- ${SECRET_URL}"
       - echo "testing WIP RUNNING STEP Composer-install-lowest"
       - composer install --ansi --no-suggest --no-progress -v
       - composer update --prefer-lowest --ansi --no-suggest --no-progress
@@ -33,10 +40,9 @@ pipeline:
   composer-install-highest:
     group: prepare
     image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
-#    volumes:
-#      - /cache:/cache
+    #    volumes:
+    #      - /cache:/cache
     commands:
-      - echo 'webhookUrl- ${SECRET_URL}"
       - echo 'Testing pipeline.composer-install-highest'
       - composer install --ansi --no-suggest --no-progress
       - composer update --prefer-lowest --ansi --no-suggest --no-progress
@@ -59,11 +65,6 @@ pipeline:
       image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
       commands:
         - ./vendor/bin/behat --strict
-
-  slack:
-    image: plugins/slack
-    channel: tarafesonfire
-    webhook: ${secret_url}
 
 matrix:
   PHP_VERSION:
