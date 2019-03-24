@@ -7,29 +7,22 @@ services:
     image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
     environment:
     - DOCUMENT_ROOT=/test/bw_d7
-#  mysql:
-#    image: percona/percona-server:5.6
-#    environment:
-#      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-#  selenium:
-#    image: selenium/standalone-chrome:3.11
-#    environment:
-#      - DISPLAY=:99
-#      - SE_OPTS=-debug
+  mysql:
+    image: percona/percona-server:5.6
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+  selenium:
+    image: selenium/standalone-chrome:3.11
+    environment:
+      - DISPLAY=:99
+      - SE_OPTS=-debug
 pipeline:
-  slack:
-    image: plugins/slack
-    settings:
-      channel: tarafesonfire
-      webhook: ${secret_url}
-
   composer-install-lowest:
     group: prepare
     image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
     volumes:
 #      - /cache:/cache
     commands:
-      - echo 'webhookUrl- ${SECRET_URL}"
       - echo "testing WIP RUNNING STEP Composer-install-lowest"
       - composer install --ansi --no-suggest --no-progress -v
       - composer update --prefer-lowest --ansi --no-suggest --no-progress
@@ -37,18 +30,6 @@ pipeline:
       matrix:
         COMPOSER_BOUNDARY: lowest
 
-  composer-install-highest:
-    group: prepare
-    image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
-    #    volumes:
-    #      - /cache:/cache
-    commands:
-      - echo 'Testing pipeline.composer-install-highest'
-      - composer install --ansi --no-suggest --no-progress
-      - composer update --prefer-lowest --ansi --no-suggest --no-progress
-    when:
-      matrix:
-        COMPOSER_BOUNDARY: highest
   site-install:
     image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
     commands:
@@ -65,6 +46,13 @@ pipeline:
       image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
       commands:
         - ./vendor/bin/behat --strict
+
+  slack:
+    image: plugins/slack
+    channel: tarafesonfire
+    webhook: 'https://hooks.slack.com/services/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'
+    when:
+      status: [ success, failure ]
 
 matrix:
   PHP_VERSION:
