@@ -12,10 +12,19 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: yes
   - name: selenium
-    image: selenium/standalone-chrome:3.11
+    image: selenium/hub
+  - name: chrome
+    image: selenium/node-chrome
     environment:
-      DISPLAY: :99
-      SE_OPTS: -debug
+      HUB_PORT_4444_TCP_ADDR: selenium
+      HUB_PORT_4444_TCP_PORT: 4444
+      DISPLAY: :99.0
+    - name: firefox
+      image: selenium/node-firefox
+      environment:
+        HUB_PORT_4444_TCP_ADDR: selenium
+        HUB_PORT_4444_TCP_PORT: 4444
+        DISPLAY: :98.0
 
 kind: pipeline
 name: default
@@ -56,7 +65,7 @@ steps:
   - name: slack
     image: plugins/slack
     settings:
-      channel: tarafesonfire
+      room: general
       webhook:
         from_secret: webhook_url
       template: >
@@ -66,7 +75,9 @@ steps:
           build {{build.number}} failed. Fix me please, bobeh.
         {{/success}}
     when:
+      event: push
       status: [success, failure]
+#      branch: master
 
 matrix:
   PHP_VERSION:
