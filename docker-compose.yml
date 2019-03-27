@@ -4,7 +4,7 @@ services:
     image: fpfis/httpd-php-dev:5.6
     working_dir: /var/www/html
     ports:
-      - 8081:8080
+      - 8080
     volumes:
       - .:/var/www/html # Non Mac users.
       - ~/.composer/cache:/root/.composer/cache
@@ -20,21 +20,21 @@ services:
     image: percona/percona-server:5.6
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-#    ports:
-#      - 3306:3306
-  # Spawn a Selenium server which also includes a VNC server on localhost:5900 (the password is "secret")
-  selenium:
-    image: selenium/standalone-chrome-debug:3.11
-    environment:
-      - DISPLAY=:99
-      - SE_OPTS=-debug
-      - SCREEN_WIDTH=1280
-      - SCREEN_HEIGHT=800
-      - VNC_NO_PASSWORD=1
     ports:
-      - "5900:5900"
-    expose:
-      - '4444'
+      - 3306:3306
+  # Spawn a Selenium server which also includes a VNC server on localhost:5900 (the password is "secret")
+#  selenium:
+#    image: selenium/standalone-chrome-debug:3.11
+#    environment:
+#      - DISPLAY=:99
+#      - SE_OPTS=-debug
+#      - SCREEN_WIDTH=1280
+#      - SCREEN_HEIGHT=800
+#      - VNC_NO_PASSWORD=1
+#    ports:
+#      - "5900:5900"
+#    expose:
+#      - '4444'
 
 #### Mac users: uncomment the "volumes" key to enable the NFS file sharing. You can find more information about Docker for Mac here: https://github.com/openeuropa/openeuropa/blob/master/docs/starting/tooling.md#using-docker-on-macos
 
