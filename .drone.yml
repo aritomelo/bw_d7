@@ -11,20 +11,20 @@ services:
     image: percona/percona-server:5.6
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: yes
-  - name: selenium
-    image: selenium/hub
-  - name: chrome
-    image: selenium/node-chrome
-    environment:
-      HUB_PORT_4444_TCP_ADDR: selenium
-      HUB_PORT_4444_TCP_PORT: 4444
-      DISPLAY: :99.0
-  - name: firefox
-    image: selenium/node-firefox
-    environment:
-      HUB_PORT_4444_TCP_ADDR: selenium
-      HUB_PORT_4444_TCP_PORT: 4444
-      DISPLAY: :98.0
+#  - name: selenium
+#    image: selenium/hub
+#  - name: chrome
+#    image: selenium/node-chrome
+#    environment:
+#      HUB_PORT_4444_TCP_ADDR: selenium
+#      HUB_PORT_4444_TCP_PORT: 4444
+#      DISPLAY: :99.0
+#  - name: firefox
+#    image: selenium/node-firefox
+#    environment:
+#      HUB_PORT_4444_TCP_ADDR: selenium
+#      HUB_PORT_4444_TCP_PORT: 4444
+#      DISPLAY: :98.0
 
 kind: pipeline
 name: default
@@ -55,6 +55,12 @@ steps:
     image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
     commands:
       - ./vendor/bin/grumphp run
+
+  - name: run-test-with-behat
+    group: test
+    image: fpfis/httpd-php-dev:${PHP_VERSION=5.6}
+    commands:
+      - ./vendor/bin/behat --strict
 
   - name: slack
     image: plugins/slack
