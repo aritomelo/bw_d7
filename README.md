@@ -1,5 +1,7 @@
 # A Drupal 7 (almost vanilla) for testing components.
 
+[![Build Status](http://134.209.90.4/api/badges/aritomelo/bw_d7/status.svg)](http://134.209.90.4/aritomelo/bw_d7)
+
 
 Table of contents:
 =================

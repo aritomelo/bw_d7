@@ -1,6 +1,6 @@
 drupal:
   root: "build"
-  base_url: "http://127.0.0.1:8081/build"
+  base_url: "http://web:8080/build"
   database:
     host: "mysql"
     port: "3306"
@@ -15,8 +15,8 @@ drupal:
     - "./vendor/bin/drush en tmgmt -y -r $(pwd)/build"
     - "./vendor/bin/drush en toolbar -y -r $(pwd)/build"
     - "./vendor/bin/drush en admin_menu -y -r $(pwd)/build"
-    - "./vendor/bin/drush en simpletest -y --root=$(pwd)/build"
-    - "./vendor/bin/drush cc all -r build"
+    - "./vendor/bin/drush en simpletest -y -r $(pwd)/build"
+    - "./vendor/bin/drush cc all --root=$(pwd)/build"
   settings:
     settings:
       file_scan_ignore_directories:
